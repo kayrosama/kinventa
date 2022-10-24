@@ -1,2 +1,2 @@
 # kinventa
-Sistema para control de inventario, venta y facturacion
+Sistema para control de inventario, ventas y facturacion
