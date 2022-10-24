@@ -1,2 +1,2 @@
-# kinvfac
-Sistema para control de inventario y facturacion
+# kinventa
+Sistema para control de inventario, venta y facturacion
