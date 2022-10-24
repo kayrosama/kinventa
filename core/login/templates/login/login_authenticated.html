@@ -1,0 +1,29 @@
+{% extends 'login/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="lockscreen-wrapper">
+        <div class="lockscreen-logo">
+            <a><i class="{{ dashboard.get_icon }} fa-3x"></i></a>
+        </div>
+        <div class="lockscreen-name text-center">{{ request.user.get_short_name }}</div>
+        <div class="lockscreen-item" style="width: auto;">
+            <div class="lockscreen-image">
+                <img src="{{ request.user.get_image }}" alt="User Image">
+            </div>
+            <a href="{% url 'dashboard' %}" class="btn btn-primary btn-block">
+                <i class="fas fa-home"></i> Continuar con la sesión activa
+            </a>
+        </div>
+        <div class="help-block text-center">
+            {{ request.user.username }} continua con la sesión activa
+        </div>
+        <div class="text-center">
+            <a href="{% url 'login_different' %}">O inicia sesión como un usuario diferente</a>
+        </div>
+        <div class="lockscreen-footer text-center">
+            Copyright &copy; 2022-2023 <b><a href="https://adminlte.io" class="text-black">{{ dashboard.name }}</a></b>
+            <br>Todos los derechos reservados
+        </div>
+    </div>
+{% endblock %}

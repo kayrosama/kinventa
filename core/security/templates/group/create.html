@@ -1,0 +1,77 @@
+{% extends 'form.html' %}
+{% load static %}
+{% block head_form %}
+    <script src="{% static 'group/js/form.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form class="form" method="post" action="." enctype="multipart/form-data" id="frmForm" data-url="{{ list_url }}" autocomplete="off">
+        <div class="card {{ dashboard.card }}">
+            <div class="card-header">
+                <h3 class="card-title">
+                    {% if action == 'add' %}
+                        <i class="fas fa-plus"></i>
+                    {% else %}
+                        <i class="fas fa-edit"></i>
+                    {% endif %}
+                    {{ title }}
+                </h3>
+            </div>
+            <div class="card-body" style="display: block;">
+                <div class="container-fluid">
+                    <input type="hidden" name="action" id="action" value="{{ action }}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col col-lg-8">
+                            <div class="form-group">
+                                <label>{{ form.name.label }}:</label>
+                                {{ form.name }}
+                            </div>
+                        </div>
+                        <div class="col col-lg-4">
+                            <div class="form-group">
+                                <label>Seleccionar todos los módulos:</label><br>
+                                <input type="checkbox" class="form-control-checkbox" name="selectall">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>Seleccione los módulos del perfil:</label>
+                                <table style="width:100%;" class="table table-bordered" id="tblModules">
+                                    <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Módulo</th>
+                                        <th>Tipo de Módulo</th>
+                                        <th>Acceso al módulo</th>
+                                        <th>Permisos</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% block box_footer %}
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-flat">
+                        <i class="fas fa-save"></i> Guardar registro
+                    </button>
+                    <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                </div>
+            {% endblock %}
+        </div>
+    </form>
+    <script type="application/javascript">
+        $(function () {
+            group.details.modules = {{ modules|safe }};
+            group.list();
+        });
+    </script>
+{% endblock %}

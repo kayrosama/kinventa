@@ -1,0 +1,17 @@
+{% extends 'form.html' %}
+{% load static %}
+{% block head_body %}
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/formvalidation-1.9.0/css/formValidation.min.css' %}">
+    <script src="{% static 'lib/formvalidation-1.9.0/js/es6-shim.min.js' %}"></script>
+    <script src="{% static 'lib/formvalidation-1.9.0/js/FormValidation.min.js' %}"></script>
+    <script src="{% static 'lib/formvalidation-1.9.0/js/plugins/Bootstrap.min.js' %}"></script>
+    <script src="{% static 'lib/formvalidation-1.9.0/js/locales/es_ES.min.js' %}"></script>
+    {% block head_login %}{% endblock %}
+{% endblock %}
+
+{% block body %}
+    <body class="hold-transition login-page">
+    {% block content %}{% endblock %}
+    </body>
+{% endblock %}

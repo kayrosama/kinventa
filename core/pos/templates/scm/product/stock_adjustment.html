@@ -1,0 +1,101 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-touchspin-4.2.5/css/jquery.bootstrap-touchspin.css' %}"/>
+    <script src="{% static 'lib/bootstrap-touchspin-4.2.5/js/jquery.bootstrap-touchspin.js' %}"></script>
+    <script src="{% static 'scm/product/js/stock_adjustment.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="card {{ dashboard.card }}">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-boxes"></i>
+                {{ title }}
+            </h3>
+        </div>
+        <div class="card-body" style="display: block;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Búsqueda de productos:</label>
+                            <div class="input-group input-group-search">
+                                <input type="text" class="form-control" autocomplete="off" name="input_search_products"
+                                       placeholder="Ingrese el nombre de un producto">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                            data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false"><i class="fas fa-tasks"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" style="cursor: pointer;">
+                                        <a class="dropdown-item btnSearchProducts"><i class="fas fa-search"></i>
+                                            Buscar productos</a>
+                                        <a class="dropdown-item btnClearProducts"><i class="fas fa-times"></i>
+                                            Limpiar búsqueda</a>
+                                        <a class="dropdown-item btnRemoveAllProducts"><i
+                                                class="fas fa-trash-alt"></i> Borrar todo</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table style="width:100%;" class="table table-bordered" id="tblProducts">
+                    <thead>
+                    <tr>
+                        <th style="width: 10%;">Eliminar</th>
+                        <th style="width: 15%;">Código</th>
+                        <th style="width: 40%;">Producto</th>
+                        <th style="width: 15%;">Stock actual</th>
+                        <th style="width: 20%;">Stock nuevo</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="button" class="btn btn-primary btn-flat btnSave">
+                <i class="fas fa-save"></i> Guardar registro
+            </button>
+            <a href="{% url 'dashboard' %}" class="btn btn-danger btn-flat btnRefresh">
+                <i class="fas fa-times"></i> Cancelar
+            </a>
+        </div>
+    </div>
+    <div id="myModalSearchProducts" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <b><i class="fa fa-search"></i> Búsqueda de productos</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <table style="width:100%;" class="table table-bordered table-sm" id="tblSearchProducts">
+                            <thead>
+                            <tr>
+                                <th style="width: 10%;">Código</th>
+                                <th style="width: 40%;">Nombre</th>
+                                <th style="width: 25%;">Stock</th>
+                                <th style="width: 25%;">Agregar</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

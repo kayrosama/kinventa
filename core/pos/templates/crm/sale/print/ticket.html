@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        @page {
+            width: 58mm;
+            height: {{ height }}px;
+            margin: 0;
+        }
+
+        body {
+            font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            font-size: 8px;
+            color: black !important;
+        }
+
+        p {
+            font-size: 5px;
+        }
+
+        .content {
+            width: 58mm;
+            height: {{ height }}px;
+            padding: 10px;
+        }
+
+        .client {
+            font-size: 5px;
+            margin-top: 0;
+            padding-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .name-company {
+            margin-top: 10px;
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        .desc-company {
+            font-size: 5px;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .border-dotted {
+            border-top-style: dotted;
+            border-bottom-style: dotted;
+        }
+
+        .ruc {
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .table {
+            font-size: 5px;
+            color: black;
+        }
+
+        .table td, .table th {
+            padding: 0;
+            color: black;
+        }
+
+        .img-logo {
+            margin-top: 5px;
+            width: 20px;
+            height: 20px;
+            margin-bottom: 5px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="content">
+    <img alt="" src="{{ company.get_image }}" class="img-fluid d-block mx-auto img-logo">
+    <h1 class="name-company">{{ company.name }}</h1>
+    <p class="text-center desc-company">
+        {{ company.address }}<br>
+        Celular: +593 {{ company.mobile }}<br>
+        Teléfono: {{ company.phone }}<br>
+        Web: {{ company.website }}<br>
+    </p>
+    <p class="ruc border-dotted">
+        RUC N°: {{ company.ruc }}
+    </p>
+    <p class="client">
+        <b>NO. FACTURA:</b> {{ sale.get_number }}<br>
+        <b>Cajero:</b> {{ sale.employee.get_full_name }}<br>
+        <b>Cliente:</b> {{ sale.client.user.names }}<br>
+        <b>Número de cédula:</b> {{ sale.client.user.dni }}<br>
+        <b>Fecha de venta:</b> {{ sale.date_joined|date:'c' }}<br>
+        <b>Forma de pago:</b> {{ sale.get_payment_condition_display }}<br>
+        {% if sale.payment_condition == 'contado' %}
+            <b>Método de pago:</b> {{ sale.get_payment_method_display }}<br>
+        {% else %}
+            <b>Fecha limite de credito:</b> {{ sale.end_credit|date:'c' }}<br>
+        {% endif %}
+    </p>
+    <table class="table table-borderless table-sm" style="margin-bottom: 0">
+        <thead>
+        <tr style="border-bottom: 1px double black;">
+            <th style="width: 15%;">Cantidad</th>
+            <th style="width: 40%;">Producto</th>
+            <th style="width: 15%;">P./Unitario</th>
+            <th style="width: 15%;">Dscto</th>
+            <th style="width: 15%;" class="text-right">Subtotal</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for detail in sale.saledetail_set.all %}
+            <tr>
+                <td>{{ detail.cant }}</td>
+                <td>{{ detail.product.name }}</td>
+                <td>{{ detail.price }}</td>
+                <td>{{ detail.total_dscto }}</td>
+                <td class="text-right">{{ detail.total }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <table class="table table-borderless table-sm" style="margin-top: 0">
+        <thead>
+        <tr>
+            <th style="width: 50%;"></th>
+            <th style="width: 50%;"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="float-left"><b>Subtotal</b></td>
+            <td class="text-right">{{ sale.subtotal }}</td>
+        </tr>
+        <tr>
+            <td class="float-left"><b>Iva {{ sale.iva }}%</b></td>
+            <td class="text-right">{{ sale.total_iva }}</td>
+        </tr>
+        <tr>
+            <td class="float-left"><b>Descuento {{ sale.dscto }}%</b></td>
+            <td class="text-right">{{ sale.total_dscto }}</td>
+        </tr>
+        <tr>
+            <td class="float-left"><b>Total a pagar</b></td>
+            <td class="text-right">{{ sale.total }}</td>
+        </tr>
+        </tbody>
+    </table>
+    {% if sale.payment_condition == 'contado' %}
+        <p class="text-uppercase font-weight-bold text-center">
+            ****** estimado cliente no olvide que ******
+            <br>
+            {% if sale.payment_method == 'efectivo' %}
+                Usted va a pagar en efectivo un total de {{ sale.cash }}<br>
+                Por lo tanto debe recibir un cambio de {{ sale.change }}<br>
+            {% elif sale.payment_method == 'tarjeta_debito_credito' %}
+                Se le va a descontar de su tarjeta un monto de {{ sale.amount_debited }}<br>
+            {% elif sale.payment_method == 'efectivo_tarjeta' %}
+                Usted va a pagar en efectivo un total de {{ sale.cash }}<br>
+                Y se le va a descontar de su tarjeta un monto de {{ sale.amount_debited }}<br>
+            {% endif %}
+            Total de productos {{ sale.saledetail_set.all.count }}
+        </p>
+    {% endif %}
+    <p class="text-center border-dotted p-1">
+        !Gracias por su preferencia!<br>
+        Una vez que usted a recibido el pedido<br>
+        No hay derecho a reclamo ni devolución del producto<br>
+        Que tenga un excelente día
+    </p>
+</div>
+</body>
+</html>

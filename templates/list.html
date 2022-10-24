@@ -1,0 +1,90 @@
+{% extends 'skin.html' %}
+{% load static %}
+{% block head_body %}
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.25/css/dataTables.bootstrap4.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap4.min.css' %}"/>
+    <script src="{% static 'lib/datatables-1.10.25/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.25/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.25/plugins/responsive-2.2.9/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.25/plugins/responsive-2.2.9/js/responsive.bootstrap4.min.js' %}"></script>
+    <!--Block head list-->
+    {% block head_list %}{% endblock %}
+{% endblock %}
+
+{% block content %}
+    <div class="card {{ dashboard.card }}">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-search"></i>
+                {{ title }}
+            </h3>
+        </div>
+        <div class="card-body" style="display: block;">
+            <div class="container-fluid">
+                <!--Block content list-->
+                {% block content_list %}
+                    <!--Block content list before-->
+                    {% block content_list_before %}
+                        <br>
+                    {% endblock %}
+                    <!--Table-->
+                    <table style="width:100%;" class="table table-bordered" id="data">
+                        <thead>
+                        <tr>
+                            <!--Columns-->
+                            {% block columns %}{% endblock %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--Rows-->
+                        {% block rows %}{% endblock %}
+                        </tbody>
+                    </table>
+                {% endblock %}
+            </div>
+        </div>
+        <!--Block box footer-->
+        {% block box_footer %}
+            <div class="card-footer">
+                <!--Block box footer buttons-->
+                {% block box_footer_buttons %}
+                    {% if create_url %}
+                        <a href="{{ create_url }}" class="btn btn-primary btn-flat">
+                            <i class="fas fa-plus"></i> Nuevo Registro
+                        </a>
+                    {% endif %}
+                    <!--Block box footer add buttons-->
+                    {% block box_footer_add_button %}{% endblock %}
+                    <a href="{{ list_url }}" class="btn btn-success btn-flat">
+                        <i class="fas fa-sync-alt"></i> Actualizar
+                    </a>
+                {% endblock %}
+            </div>
+        {% endblock %}
+        <!--Block box footer after-->
+        {% block box_footer_after %}{% endblock %}
+    </div>
+    {% block javascript_list %}
+        <script type="application/javascript">
+            var table;
+            $(function () {
+                table = $('#data').DataTable({
+                    autoWidth: false,
+                    destroy: true,
+                    initComplete: function (settings, json) {
+                        $(this).wrap('<div class="dataTables_scroll"><div/>');
+                    }
+                });
+
+                $('.table')
+                    .on('draw', function () {
+                        $('[data-toggle="tooltip"]').tooltip();
+                    })
+                    .on('click', 'img', function () {
+                        var src = $(this).attr('src');
+                        load_image(src);
+                    });
+            });
+        </script>
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'lib/bootstrap-daterangepicker-3.1/js/spanish.js' %}"></script>
+    <script src="{% static 'lib/bootstrap-daterangepicker-3.1/js/daterangepicker.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-daterangepicker-3.1/css/daterangepicker.css' %}"/>
+    <script src="{% static 'crm/sale/client/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+    <th>Número</th>
+    <th>Cliente</th>
+    <th>Forma de Pago</th>
+    <th>Método de Pago</th>
+    <th>Comprobante</th>
+    <th>Fecha de registro</th>
+    <th>Total a pagar</th>
+    <th class="text-center">Opciones</th>
+{% endblock %}
+
+{% block content_list_before %}
+    <div class="row">
+        <div class="col-lg-5 col-md-12">
+            <div class="form-group">
+                <label>{{ form.date_range.label }}:</label>
+                <div class="input-group mb-3">
+                    {{ form.date_range }}
+                    <div class="input-group-append">
+                        <button class="btn btn-primary btnSearchAll" type="button">
+                            <i class="fas fa-calendar-check"></i> Ver todas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="modal fade" id="myModalDetails" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b><i class="fa fa-search"></i> Detalle de la venta</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#home">
+                                    Datos de la factura
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#menu1">
+                                    Productos
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane container-fluid active" id="home">
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table style="width:100%;" class="table table-bordered table-sm" id="tblInvoice">
+                                            <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Descripción</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane container-fluid fade" id="menu1">
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table style="width:100%;" class="table table-bordered table-sm" id="tblProducts">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 40%;">Producto</th>
+                                                <th style="width: 10%;">P./Unitario</th>
+                                                <th style="width: 10%;">Cantidad</th>
+                                                <th style="width: 10%;">Subtotal</th>
+                                                <th style="width: 10%;">Dscto</th>
+                                                <th style="width: 10%;">T./Dscto</th>
+                                                <th style="width: 10%;">Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript_list %}
+
+{% endblock %}
+
+{% block box_footer_buttons %}
+    <div class="row">
+        <div class="col-lg-12 text-right">
+            <h1 class="font-weight-bold total">$0.00</h1>
+        </div>
+    </div>
+{% endblock %}

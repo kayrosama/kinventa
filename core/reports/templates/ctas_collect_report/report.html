@@ -1,0 +1,42 @@
+{% extends 'report.html' %}
+{% load static %}
+{% block head_report %}
+    <script src="{% static 'ctas_collect_report/js/report.js' %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content_report %}
+    <div class="row">
+        <div class="col-lg-5 col-md-12">
+            <div class="form-group">
+                <label>{{ form.date_range.label }}:</label>
+                <div class="input-group mb-3">
+                    {{ form.date_range }}
+                    <div class="input-group-append">
+                        <button class="btn btn-primary btnSearchAll" type="button">
+                            <i class="fas fa-calendar-check"></i> Ver todas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <hr>
+            <table class="table table-bordered" id="tblReport" style="width:100%;">
+                <thead>
+                <tr>
+                    <th style="width: 25%;">Cliente</th>
+                    <th style="width: 15%;">Número de cédula</th>
+                    <th style="width: 15%;">Fecha de venta</th>
+                    <th style="width: 15%;">Fecha de plazo</th>
+                    <th style="width: 10%;">Deuda</th>
+                    <th style="width: 10%;">Saldo</th>
+                    <th style="width: 10%;">Estado</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        body {
+            font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            color: black;
+        }
+
+        .name-company {
+            font-size: 30px;
+            padding: 0;
+            margin: 0;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        table thead tr th {
+            border: 1px solid black !important;
+            padding: 3px;
+        }
+
+        table tbody tr td {
+            border: 1px solid black;
+            padding: 3px;
+        }
+
+        .img-logo {
+            margin-top: 10px;
+            width: 75px;
+            height: 75px;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <img alt="" src="{{ company.get_image }}" class="img-fluid d-block mx-auto img-logo">
+    <h1 class="name-company">{{ company.name }}</h1>
+    <p class="text-center">
+        {{ company.address }}<br>
+        Ruc: {{ company.ruc }}
+        Celular: +593 {{ company.mobile }}<br>
+        Teléfono: {{ company.phone }}<br>
+        Web: {{ company.website }}<br>
+    </p>
+    <p>
+        <b>NO. FACTURA:</b> {{ sale.get_number }}<br>
+        <b>Cajero:</b> {{ sale.employee.get_full_name }}<br>
+        <b>Cliente:</b> {{ sale.client.user.names }}<br>
+        <b>Número de cédula:</b> {{ sale.client.user.dni }}<br>
+        <b>Fecha de venta:</b> {{ sale.date_joined|date:'c' }}<br>
+        <b>Forma de pago:</b> {{ sale.get_payment_condition_display }}<br>
+        {% if sale.payment_condition == 'contado' %}
+            <b>Método de pago:</b> {{ sale.get_payment_method_display }}<br>
+        {% else %}
+            <b>Fecha limite de credito:</b> {{ sale.end_credit|date:'c' }}<br>
+        {% endif %}
+    </p>
+    <table class="table" style="width: 100%;">
+        <thead>
+        <tr style="border: 1px solid black;">
+            <th style="width: 10%;">Cantidad</th>
+            <th style="width: 45%;">Producto</th>
+            <th style="width: 15%;">P.Unitario</th>
+            <th style="width: 15%;">Dscto</th>
+            <th style="width: 15%;" class="text-right">Subtotal</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for detail in sale.saledetail_set.all %}
+            <tr>
+                <td class="text-center">{{ detail.cant }}</td>
+                <td>{{ detail.product.name }}</td>
+                <td class="text-center">{{ detail.price|floatformat:2 }}</td>
+                <td class="text-center">{{ detail.total_dscto|floatformat:2 }}</td>
+                <td class="text-right">{{ detail.total|floatformat:2 }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="4" class="text-right"><b>Subtotal</b></td>
+            <td class="text-right">{{ sale.subtotal|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="text-right"><b>Iva {{ sale.iva|floatformat:2 }}%</b></td>
+            <td class="text-right">{{ sale.total_iva|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="text-right"><b>Descuento {{ sale.dscto|floatformat:2 }}%</b></td>
+            <td class="text-right">{{ sale.total_dscto|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="text-right"><b>Total a pagar</b></td>
+            <td class="text-right">{{ sale.total|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                {% if sale.payment_condition == 'contado' %}
+                    <p class="text-uppercase text-center mb-0 pb-0">
+                        ****** estimado cliente no olvide que ******
+                        <br>
+                        {% if sale.payment_method == 'efectivo' %}
+                            Usted va a pagar en efectivo un total de {{ sale.cash }}<br>
+                            Por lo tanto debe recibir un cambio de {{ sale.change }}<br>
+                        {% elif sale.payment_method == 'tarjeta_debito_credito' %}
+                            Se le va a descontar de su tarjeta un monto de {{ sale.amount_debited }}<br>
+                        {% elif sale.payment_method == 'efectivo_tarjeta' %}
+                            Usted va a pagar en efectivo un total de {{ sale.cash }}<br>
+                            Y se le va a descontar de su tarjeta un monto de {{ sale.amount_debited }}<br>
+                        {% endif %}
+                        Total de productos {{ sale.saledetail_set.all.count }}
+                    </p>
+                {% endif %}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

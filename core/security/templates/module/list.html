@@ -1,0 +1,21 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'module/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+    <th class="text-center">Número</th>
+    <th>Nombre</th>
+    <th>Tipo</th>
+    <th>Icono</th>
+    <th>Imagen</th>
+    <th>Vertical</th>
+    <th>Visible</th>
+    <th>Estado</th>
+    <th class="text-center">Opciones</th>
+{% endblock %}
+
+{% block javascript_list %}
+
+{% endblock %}

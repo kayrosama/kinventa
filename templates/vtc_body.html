@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <!--Block head of body-->
+    {% block head_body %}{% endblock %}
+{% endblock %}
+
+{% block body %}
+    <body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <!--Include template header-->
+        {% include 'vtc_header.html' %}
+        <!--Include template sidebar-->
+        {% include 'vtc_sidebar.html' %}
+        <div class="content-wrapper">
+            <!--Block breadcrumb-->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!--Block breadcrumb-->
+                            {% block breadcrumb %}
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a href="{% url 'dashboard' %}"><i class="fas fa-home"></i> Panel</a>
+                                        </li>
+                                        {% block breadcrumb_li %}
+                                            <li class="breadcrumb-item active" aria-current="page">
+                                                <a href="{{ request.session.module.url }}"><i class="{{ request.session.module.get_icon }}"></i> {{ request.session.module.name }}
+                                                </a>
+                                            </li>
+                                        {% endblock %}
+                                    </ol>
+                                </nav>
+                            {% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Block content-->
+            <section class="content">
+                <div class="container-fluid">
+                    {% block content %}
+
+                    {% endblock %}
+                </div>
+            </section>
+        </div>
+        <!--Include template footer-->
+        {% include 'footer.html' %}
+    </div>
+    <script>
+        {% if messages %}
+            var html = '<p>';
+            {% for message in messages %}
+                html += '{{ message }}<br>';
+            {% endfor %}
+            html += '</p>';
+            Swal.fire({
+                title: 'Error!',
+                html: html,
+                icon: 'error'
+            });
+        {% endif %}
+    </script>
+    </body>
+{% endblock %}

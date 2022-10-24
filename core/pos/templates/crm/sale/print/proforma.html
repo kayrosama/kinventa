@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        body {
+            font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            color: black;
+        }
+
+        .name-company {
+            font-size: 30px;
+            padding: 0;
+            margin: 0;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        table thead tr th {
+            border: 1px solid black !important;
+            padding: 3px;
+        }
+
+        table tbody tr td {
+            border: 1px solid black;
+            padding: 3px;
+        }
+
+        .img-logo {
+            margin-top: 10px;
+            width: 75px;
+            height: 75px;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <img src="{{ company.get_image }}" class="img-fluid d-block mx-auto img-logo">
+    <h1 class="name-company">{{ company.name }}</h1>
+    <p class="text-center">
+        {{ company.address }}<br>
+        Ruc: {{ company.ruc }}
+        Celular: +593 {{ company.mobile }}<br>
+        Teléfono: {{ company.phone }}<br>
+        Web: {{ company.website }}<br>
+    </p>
+    <table class="" style="width: 100%;">
+        <thead>
+        <tr style="border: 1px solid black;">
+            <th>Cantidad</th>
+            <th>Producto</th>
+            <th>P./Unitario</th>
+            <th>Descuento</th>
+            <th class="text-right">Subtotal</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for det in sale.products %}
+            <tr>
+                <td class="text-center">{{ det.cant }}</td>
+                <td>{{ det.name }}</td>
+                <td class="text-center">{{ det.pvp|floatformat:2 }}</td>
+                <td class="text-center">{{ det.total_dscto|floatformat:2 }}</td>
+                <td class="text-right">{{ det.total|floatformat:2 }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="4" class="text-right"><b>Subtotal</b></td>
+            <td class="text-right">{{ sale.subtotal|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="text-right"><b>Iva {{ sale.iva|floatformat:2 }}%</b></td>
+            <td class="text-right">{{ sale.total_iva|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="text-right"><b>Descuento {{ sale.dscto|floatformat:2 }}%</b></td>
+            <td class="text-right">{{ sale.total_dscto|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="text-right"><b>Total a pagar</b></td>
+            <td class="text-right">{{ sale.total|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <p class="text-uppercase text-center p-5 mb-0 pb-0">
+                    ****** estimado cliente no olvide que las proformas tiene un tiempo de validez de 1 semana ******
+                </p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% extends 'report.html' %}
+{% load static %}
+{% block head_report %}
+    <script src="{% static 'lib/highcharts-9.1.1/highcharts.js' %}" type="text/javascript"></script>
+    <script src="{% static 'lib/highcharts-9.1.1/highcharts-3d.js' %}" type="text/javascript"></script>
+    <script src="{% static 'lib/highcharts-9.1.1/modules/exporting.js' %}" type="text/javascript"></script>
+    <script src="{% static 'lib/highcharts-9.1.1/modules/data.js' %}" type="text/javascript"></script>
+    <script src="{% static 'lib/highcharts-9.1.1/modules/drilldown.js' %}" type="text/javascript"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}">
+    <script src="{% static 'earnings_report/js/report.js' %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content_report %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label>{{ form.product.label }}:</label>
+                <div class="input-group">
+                    {{ form.product }}
+                    <div class="input-group-append">
+                        <button class="btn btn-primary btnSearch" type="button">
+                            <i class="fas fa-calendar-check"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <hr>
+            <table class="table table-bordered table-sm" id="tblReport" style="width:100%;">
+                <thead>
+                <tr>
+                    <th style="width: 25%;">Producto</th>
+                    <th style="width: 15%;">Categoría</th>
+                    <th style="width: 20%;">P./Compra</th>
+                    <th style="width: 20%;">P./Venta</th>
+                    <th style="width: 20%;">Ganancia</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="col-lg-6">
+            <div id="container"></div>
+        </div>
+    </div>
+{% endblock %}

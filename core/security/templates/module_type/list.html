@@ -1,0 +1,34 @@
+{% extends 'list.html' %}
+
+{% block columns %}
+    <th class="text-center">Número</th>
+    <th>Nombre</th>
+    <th>Icono</th>
+    <th>Estado</th>
+    <th class="text-center">Opciones</th>
+{% endblock %}
+
+{% block rows %}
+    {% for i in object_list %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.name }}</td>
+            <td class="text-center"><i class="{{ i.get_icon }}"></i></td>
+            <td class="text-center">
+                {% if i.is_active %}
+                    <b class="badge badge-success badge-pill">Activo</b>
+                {% else %}
+                    <b class="badge badge-danger badge-pill">Inactivo</b>
+                {% endif %}
+            </td>
+            <td class="text-center">
+                <a href="{% url 'module_type_update' i.id %}" data-toggle="tooltip" title="Editar registro" class="btn btn-warning btn-xs btn-flat">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a href="{% url 'module_type_delete' i.id %}" rel="delete" data-toggle="tooltip" title="Eliminar registro" class="btn btn-danger btn-xs btn-flat">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'form.html' %}
+{% load static %}
+{% block head_form %}
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-touchspin-4.2.5/css/jquery.bootstrap-touchspin.css' %}"/>
+    <script src="{% static 'lib/bootstrap-touchspin-4.2.5/js/jquery.bootstrap-touchspin.js' %}"></script>
+    <script src="{% static 'lib/bootstrap-daterangepicker-3.1/js/spanish.js' %}"></script>
+    <script src="{% static 'lib/bootstrap-daterangepicker-3.1/js/daterangepicker.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-daterangepicker-3.1/css/daterangepicker.css' %}"/>
+    <script src="{% static 'crm/promotions/js/form.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form class="form" method="post" action="." enctype="multipart/form-data" id="frmForm" data-url="{% url 'promotions_list' %}" autocomplete="off">
+        <div class="card {{ dashboard.card }}">
+            <div class="card-header">
+                <h3 class="card-title">
+                    {% if action == 'add' %}
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                    {% else %}
+                        <i class="fas fa-edit" aria-hidden="true"></i>
+                    {% endif %}
+                    {{ title }}
+                </h3>
+            </div>
+            <div class="card-body" style="display: block;">
+                <div class="container-fluid">
+                    {% csrf_token %}
+                    <input type="hidden" id="action" name="action" value="{{ action }}">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label>{{ form.date_range.label }}:</label>
+                                {{ form.date_range }}
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Descuento masivo:</label>
+                                <input type="text" autocomplete="off" class="form-control" name="dsctomassive"
+                                       value="0.00">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>Búsqueda de productos:</label>
+                                <div class="input-group input-group-search">
+                                    <input type="text" class="form-control" autocomplete="off" name="input_search_products"
+                                           placeholder="Ingrese el nombre de un producto">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                                data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false"><i class="fas fa-tasks"></i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" style="cursor: pointer;">
+                                            <a class="dropdown-item btnSearchProducts"><i class="fas fa-search"></i>
+                                                Buscar productos</a>
+                                            <a class="dropdown-item btnClearProducts"><i class="fas fa-times"></i>
+                                                Limpiar búsqueda</a>
+                                            <a class="dropdown-item btnRemoveAllProducts"><i
+                                                    class="fas fa-trash-alt"></i> Borrar todo</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table style="width:100%;" class="table table-bordered" id="tblProducts">
+                                <thead>
+                                <tr>
+                                    <th style="width: 5%;">Eliminar</th>
+                                    <th style="width: 10%;">Código</th>
+                                    <th style="width: 30%;">Producto</th>
+                                    <th style="width: 10%;">P./Actual</th>
+                                    <th style="width: 20%;">Descuento</th>
+                                    <th style="width: 10%;">T./Dscto</th>
+                                    <th style="width: 10%;">P./Final</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-flat">
+                    <i class="fas fa-save"></i> Guardar registro
+                </button>
+                <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </div>
+    </form>
+    <div id="myModalSearchProducts" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <b><i class="fa fa-search" aria-hidden="true"></i> Búsqueda de productos</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label>Seleccionar todo:</label><br>
+                            <input type="checkbox" name="chooseallproducts" value="">
+                        </div>
+                        <table style="width:100%;" class="table table-bordered table-sm" id="tblSearchProducts">
+                            <thead>
+                            <tr>
+                                <th style="width: 10%;">Código</th>
+                                <th style="width: 50%;">Producto</th>
+                                <th style="width: 20%;">P./Actual</th>
+                                <th style="width: 20%;">Seleccionar</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="application/javascript">
+        $(function () {
+            promotions.details.products = {{ products|safe }};
+            promotions.listProducts();
+        });
+    </script>
+{% endblock %}

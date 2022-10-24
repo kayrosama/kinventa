@@ -1,0 +1,85 @@
+{% extends 'skin.html' %}
+{% load static %}
+{% block content %}
+    <form class="form" method="post" action="." autocomplete="off">
+        <div class="card {{ dashboard.card }}">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-info-circle"></i>
+                    {{ title }}
+                </h3>
+            </div>
+            <div class="card-body" style="display: block;">
+                <div class="container-fluid">
+                    {% csrf_token %}
+                    <p class="text-center font-weight-bold mt-3">
+                        <i class="fas fa-trash fa-3x"></i><br><br>
+                        ¿Estas seguro de eliminar el registro N° {{ object.id }}?
+                    </p>
+                </div>
+            </div>
+            <div class="card-footer">
+                {% block buttons %}
+                    <button type="submit" class="btn btn-primary btn-flat">
+                        <i class="fas fa-check-circle"></i> Si, Aceptar
+                    </button>
+                    <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                {% endblock %}
+            </div>
+        </div>
+    </form>
+    <script type="application/javascript">
+        $(function () {
+            $('form').on('submit', function (event) {
+                event.preventDefault();
+                $.confirm({
+                    title: 'Alerta',
+                    theme: 'material',
+                    icon: 'fas fa-trash',
+                    content: '¿Estas seguro de eliminar el registro?',
+                    columnClass: 'small',
+                    typeAnimated: true,
+                    cancelButtonClass: "btn-primary",
+                    draggable: true,
+                    dragWindowBorder: false,
+                    buttons: {
+                        info: {
+                            text: "Si",
+                            btnClass: 'btn-primary',
+                            action: function () {
+                                $.ajax({
+                                    url: pathname,
+                                    data: {},
+                                    method: 'POST',
+                                    dataType: 'json',
+                                    headers: {
+                                        'X-CSRFToken': csrftoken
+                                    },
+                                    success: function (request) {
+                                        if (!request.hasOwnProperty('error')) {
+                                            location.href = '{{ list_url }}';
+                                            return false;
+                                        }
+                                        message_error(request.error);
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        message_error(errorThrown + ' ' + textStatus);
+                                    }
+                                });
+                            }
+                        },
+                        danger: {
+                            text: "No",
+                            btnClass: 'btn-red',
+                            action: function () {
+
+                            }
+                        },
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
