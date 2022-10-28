@@ -46,16 +46,16 @@
     <h1 class="name-company">{{ company.name }}</h1>
     <p class="text-center">
         {{ company.address }}<br>
-        Ruc: {{ company.ruc }}
-        Celular: +593 {{ company.mobile }}<br>
-        Teléfono: {{ company.phone }}<br>
-        Web: {{ company.website }}<br>
+        RUC: {{ company.ruc }}
+        CELULAR: +593 {{ company.mobile }}<br>
+        TELEFONO: {{ company.phone }}<br>
+        WEB: {{ company.website }}<br>
     </p>
     <p>
-        <b>NO. FACTURA:</b> {{ sale.get_number }}<br>
-        <b>Cajero:</b> {{ sale.employee.get_full_name }}<br>
-        <b>Cliente:</b> {{ sale.client.user.names }}<br>
-        <b>Número de cédula:</b> {{ sale.client.user.dni }}<br>
+        <b>NO. DOCUMENTO:</b> {{ sale.get_number }}<br>
+        <b>CAJERO:</b> {{ sale.employee.get_full_name }}<br>
+        <b>CLIENTE:</b> {{ sale.client.user.names }}<br>
+        <b>DUI:</b> {{ sale.client.user.dni }}<br>
         <b>Fecha de venta:</b> {{ sale.date_joined|date:'c' }}<br>
         <b>Forma de pago:</b> {{ sale.get_payment_condition_display }}<br>
         {% if sale.payment_condition == 'contado' %}
