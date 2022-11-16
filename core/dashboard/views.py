@@ -30,7 +30,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         try:
             if action == 'get_graph_stock_products':
                 data = []
-                for i in Product.objects.filter(stock__gt=0).order_by('-stock')[0:10]:
+                for i in Product.objects.filter(stock__lt=10).order_by('-stock')[0:10]:
                     data.append([i.name, i.stock])
             elif action == 'get_graph_purchase_vs_sale':
                 data = []

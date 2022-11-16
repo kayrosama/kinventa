@@ -92,19 +92,51 @@
             <div class="row">
                 <!-- Quitar -->
                 <div class="col-md-3 col-sm-6 col-12">
-                    <!-- Revisando -->
+                    <div class="info-box">
+                        <span class="info-box-icon bg-info"><i class="fas fa-user-friends"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Clientes</span>
+                            <span class="info-box-number">
+                        {{ clients }}
+                    </span>
+                        </div>
+                    </div>
                 </div>
                 <!-- Quitar -->
                 <div class="col-md-3 col-sm-6 col-12">
-                    <!-- Revisando -->
+                    <div class="info-box">
+                        <span class="info-box-icon bg-success"><i class="fas fa-truck"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Proveedores</span>
+                            <span class="info-box-number">
+                        {{ provider }}
+                    </span>
+                        </div>
+                    </div>
                 </div>
                 <!-- Quitar -->
                 <div class="col-md-3 col-sm-6 col-12">
-                    <!-- Revisando -->
+                    <div class="info-box">
+                        <span class="info-box-icon bg-warning"><i class="fas fa-truck-loading"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Categorías</span>
+                            <span class="info-box-number">
+                        {{ category }}
+                    </span>
+                        </div>
+                    </div>
                 </div>
                 <!-- Quitar -->
                 <div class="col-md-3 col-sm-6 col-12">
-                    <!-- Revisando -->
+                    <div class="info-box">
+                        <span class="info-box-icon bg-danger"><i class="fas fa-box"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Productos</span>
+                            <span class="info-box-number">
+                        {{ product }}
+                    </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         <!-- Quitar -->
@@ -115,7 +147,7 @@
                         <div class="card-header border-transparent">
                             <h3 class="card-title"><i class="fas fa-shopping-cart"></i> Las últimas 10 Ventas</h3>
                         </div>
-                        <div class="card-body p-0" style="font-size:12px">
+                        <div class="card-body p-0">
                             <div class="table-responsive">
                                 <table class="table m-0">
                                     <thead>
@@ -123,6 +155,9 @@
                                         <th>Número</th>
                                         <th>Cliente</th>
                                         <th>Fecha de registro</th>
+                                        <!-- <th>Subtotal</th>
+                                        <th>Dscto</th>
+                                        <th>Iva</th> -->
                                         <th>Total</th>
                                     </tr>
                                     </thead>
@@ -132,6 +167,9 @@
                                             <td>{{ s.get_number }}</td>
                                             <td>{{ s.client.user.get_short_name }}</td>
                                             <td>{{ s.date_joined|date:'c' }}</td>
+                                            <!-- <td>${{ s.subtotal }}</td>
+                                            <td>${{ s.total_dscto }}</td>
+                                            <td>${{ s.total_iva }}</td> -->
                                             <td>${{ s.total }}</td>
                                         </tr>
                                     {% endfor %}
@@ -144,7 +182,7 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-box"></i> Stock de Productos < 10 </h3>
+                            <h3 class="card-title"><i class="fas fa-box"></i> Stock de Productos</h3>
                         </div>
                         <div class="card-body p-0">
                             <div id="graph-stock-products" style="height: 57vh;"></div>
